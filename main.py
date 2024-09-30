@@ -45,11 +45,11 @@ class Train:
         if self.current_route:
             way = self.current_route.get_way()
             current_station = way[self.current_station_index]
-            previous_station = None if self.current_station_index == 0 else way[self.current_station_index - 1]
-            next_station = None if self.current_station_index == len(way) - 1 else way[self.current_station_index + 1]
+            previous_station = '-' if self.current_station_index == 0 else way[self.current_station_index - 1]
+            next_station = '-' if self.current_station_index == len(way) - 1 else way[self.current_station_index + 1]
             return (f"Current station: {current_station}\n"
-                    f"Previous station: {'-' if previous_station is None else previous_station}\n"
-                    f"Next station: {'-' if next_station is None else next_station}")
+                    f"Previous station: {previous_station}\n"
+                    f"Next station: {next_station}")
         else:
             return 'Train has no route'
 
