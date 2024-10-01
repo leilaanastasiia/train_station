@@ -119,15 +119,3 @@ class CargoTrain(Train):
     def __repr__(self):
         class_name = type(self).__name__
         return f"{class_name}(number={self.number!r})"
-
-
-# if __name__ == '__main__':
-    # cargo1 = CargoTrain(1)
-    # pass1 = PassengerTrain(2)
-    # # train = Train(1)
-    # # print(train._validate_wagon_type(wagon1))
-    # wagon1 = CargoWagon(1, 2)
-    # wagon2 = CargoWagon(2, 1)
-    # print(cargo1.add_wagon(wagon1))
-    # print(cargo1.remove_wagon(wagon2))
-    # print(cargo1.get_wagons_amount())
