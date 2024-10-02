@@ -9,9 +9,11 @@ class Train:
     """
     Represents a train class.
     """
+    instances = {}
 
     def __init__(self, number):
         self.number = number
+        Train.instances[self.number] = self
         """
         Private attributes bellow because it is better do not have an accesses the them directly
         for an unexpected behavior.
@@ -20,6 +22,10 @@ class Train:
         self._wagons = []
         self._current_route = None
         self._current_station_index = None
+
+    @staticmethod
+    def all():
+        return Train.instances
 
     def gain_speed(self, speed):
         self._speed += speed
@@ -34,6 +40,9 @@ class Train:
 
     def get_wagons_amount(self):
         return len(self._wagons)
+
+    def get_wagons(self):
+        return self._wagons
 
     def _validate_wagon_type(self, wagon: PassengerWagon|CargoWagon):
         """

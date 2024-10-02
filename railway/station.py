@@ -9,10 +9,16 @@ class Station:
     """
     Represents a station class.
     """
+    instances = {}
 
     def __init__(self, name):
         self.name = name
         self._trains = []
+        Station.instances[self.name] = self
+
+    @staticmethod
+    def all():
+        return Station.instances
 
     def get_trains(self, train_filter=None):
         if not train_filter:
@@ -21,6 +27,8 @@ class Station:
             return [train for train in self._trains if isinstance(train, PassengerTrain)]
         elif train_filter == 'cargo':
             return [train for train in self._trains if isinstance(train, CargoTrain)]
+        else:
+            return 'Wrong filter'
 
     def add_train(self, train: PassengerTrain|CargoTrain) -> list|str:
         if not issubclass(Train, type(train)):
@@ -42,3 +50,6 @@ class Station:
     def __repr__(self):
         class_name = type(self).__name__
         return f"{class_name}(name={self.name!r})"
+
+    def __str__(self):
+        return self.name

@@ -102,6 +102,13 @@ class TestPassengerTrain(BaseSetUp):
         expected_repr = "PassengerTrain(number=200)"
         assert repr(passenger_trains[0]) == expected_repr
 
+    def test_pass_train_get_all_instances(self, passenger_trains, train):
+        assert passenger_trains[0].all() == {1: train[0],
+                                            200: passenger_trains[0],
+                                            300: passenger_trains[1],
+                                            400: passenger_trains[2],
+                                            500: passenger_trains[3]
+                                            }
 
     def test_pass_train_gain_speed(self, passenger_trains):
         passenger_trains[0].gain_speed(25)
@@ -184,26 +191,34 @@ class TestStation(BaseSetUp):
         expected_repr = "Station(name='Kyiv')"
         assert repr(stations[0]) == expected_repr
 
-    def test_get_trains_all(self, stations):
+    def test_station_get_trains_all(self, stations):
         assert stations[0].get_trains() == []
 
-    def test_add_trains(self, stations, passenger_trains, cargo_trains):
+    def test_station_add_trains(self, stations, passenger_trains, cargo_trains):
         assert stations[0].add_train(passenger_trains[0]) == [passenger_trains[0]]
         assert stations[0].add_train(cargo_trains[0]) == [passenger_trains[0], cargo_trains[0]]
 
-    def test_add_train(self, stations, train):
+    def test_station_get_all_instances(self, stations):
+        assert stations[0].all() == {'Kyiv': stations[0],
+                                    'Lviv': stations[1],
+                                    'Yalta': stations[2],
+                                    'Przemysl': stations[3]
+                                    }
+
+    def test_station_add_train(self, stations, train):
         assert stations[0].add_train(train[0]) == 'Only passenger or cargo trains allowed'
 
-    def test_get_trains_filtered(self, stations, passenger_trains, cargo_trains):
+    def test_station_get_trains_filtered(self, stations, passenger_trains, cargo_trains):
         assert stations[0].get_trains('passenger') == [passenger_trains[0]]
         assert stations[0].get_trains('cargo') == [cargo_trains[0]]
+        assert stations[0].get_trains('largo') == 'Wrong filter'
 
-    def test_departure_train_subclass(self, stations, passenger_trains):
+    def test_station_departure_train_subclass(self, stations, passenger_trains):
         stations[0].departure_train(passenger_trains[0])
         assert passenger_trains[0] not in stations[0].get_trains()
 
-    def test_departure_train_not_found(self, stations, passenger_trains):
+    def test_station_departure_train_not_found(self, stations, passenger_trains):
         assert 'No train at the station were found' in stations[0].departure_train(passenger_trains[0])
 
-    def test_departure_train(self, stations, train):
+    def test_station_departure_train(self, stations, train):
         assert stations[0].add_train(train[0]) == 'Only passenger or cargo trains allowed'
