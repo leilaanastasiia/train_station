@@ -1,18 +1,21 @@
 from __future__ import annotations
 from railway.wagon import PassengerWagon, CargoWagon
+from railway.manufacturer import Manufacturer
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .route import Route
 
 
-class Train:
+class Train(Manufacturer):
     """
     Represents a train class.
     """
     instances = {}
 
-    def __init__(self, number):
+    def __init__(self, number, manufacturer_name=None):
+        super().__init__()
         self.number = number
+        self.manufacturer_name = manufacturer_name
         Train.instances[self.number] = self
         """
         Private attributes bellow because it is better do not have an accesses the them directly
@@ -26,6 +29,14 @@ class Train:
     @staticmethod
     def all():
         return Train.instances
+
+    @staticmethod
+    def find(number):
+        try:
+            train = Train.instances[number]
+            return train
+        except KeyError:
+            return None
 
     def gain_speed(self, speed):
         self._speed += speed

@@ -110,6 +110,15 @@ class TestPassengerTrain(BaseSetUp):
                                             500: passenger_trains[3]
                                             }
 
+    def test_pass_train_find(self, passenger_trains):
+        assert passenger_trains[0].find(200) == passenger_trains[0]
+        assert passenger_trains[0].find(900) is None
+
+    def test_pass_train_manufacturers(self, passenger_trains):
+        assert passenger_trains[0].get_manufacturer() == 'Product has no manufacturer.'
+        assert passenger_trains[0].add_manufacturer('Python') == 'Python'
+        assert passenger_trains[0].delete_manufacturer() is None
+
     def test_pass_train_gain_speed(self, passenger_trains):
         passenger_trains[0].gain_speed(25)
         assert passenger_trains[0].get_speed() == 'The current speed of the train is 25 km/h.'
@@ -183,6 +192,18 @@ class TestCargoTrain(BaseSetUp):
 
     def test_cargo_train_add_pass_wagon(self, cargo_trains, passenger_wagons):
         assert "Invalid wagon type for this train." in cargo_trains[0].add_wagon(passenger_wagons[0])
+
+
+class TestWagons(BaseSetUp):
+
+    def test_pass_wagon_get_manufacturer(self, passenger_wagons):
+        assert passenger_wagons[0].get_manufacturer() == 'Product has no manufacturer.'
+
+    def test_pass_wagon_add_manufacturer(self, passenger_wagons):
+        assert passenger_wagons[0].add_manufacturer('Python') == 'Python'
+
+    def test_pass_wagon_delete_manufacturer(self, passenger_wagons):
+        assert passenger_wagons[0].delete_manufacturer() is None
 
 
 class TestStation(BaseSetUp):
