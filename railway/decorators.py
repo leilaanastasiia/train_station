@@ -1,26 +1,5 @@
-# def instance_counter(cls):
-#     cls._instances = 0
-#
-#     def __init__(self, *args, **kwargs):
-#         cls._instances = _register_instance(cls)
-#     def instances():
-#         return cls._instances
-#     def _register_instance(self):
-#         cls._instances += 1
-#         return self._instances
-#
-#     return cls
 import functools
 
-
-# class InstanceCounter:
-#     def __init__(self, cls):
-#         self.cls = cls
-#
-#     def __call__(self, *args, **kwargs):
-#         result = self.cls(*args, **kwargs)
-#         print('hey')
-#         return result
 def instance_counter(cls):
 
     @functools.wraps(cls, updated=())
