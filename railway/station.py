@@ -1,24 +1,26 @@
 from __future__ import annotations
 from railway.train import Train, PassengerTrain, CargoTrain
+from railway.decorators import instance_counter
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .train import PassengerTrain, CargoTrain
 
 
+@instance_counter
 class Station:
     """
     Represents a station class.
     """
-    instances = {}
+    instances_dict = {}
 
     def __init__(self, name):
         self.name = name
         self._trains = []
-        Station.instances[self.name] = self
+        Station.instances_dict[self.name] = self
 
     @staticmethod
     def all():
-        return Station.instances
+        return Station.instances_dict
 
     def get_trains(self, train_filter=None):
         if not train_filter:

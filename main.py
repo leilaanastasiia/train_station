@@ -1,5 +1,4 @@
 from random import randint
-
 from railway.route import Route
 from railway.train import PassengerTrain, CargoTrain, Train
 from railway.station import Station
@@ -7,10 +6,10 @@ from railway.wagon import CargoWagon, PassengerWagon
 
 
 def created_stations():
-    if len(Station.instances) > 0:
-        print(f'Created stations:', *Station.instances.keys(), sep='\n')
+    if len(Station.instances_dict) > 0:
+        print(f'Created stations:', *Station.instances_dict.keys(), sep='\n')
         user_station = input("Choose the station's name: ").strip()
-        return Station.instances[user_station]
+        return Station.instances_dict[user_station]
     else:
         return None
 
