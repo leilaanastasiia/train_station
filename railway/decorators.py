@@ -1,6 +1,7 @@
 import functools
 
 def instance_counter(cls):
+    """Counts the number of instances of s class."""
 
     @functools.wraps(cls, updated=())
     class InstanceCounter(cls):

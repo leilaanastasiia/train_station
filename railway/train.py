@@ -18,10 +18,6 @@ class Train(Manufacturer):
         self.number = number
         self.manufacturer_name = manufacturer_name
         Train.instances[self.number] = self
-        """
-        Private attributes bellow because it is better do not have an accesses the them directly
-        for an unexpected behavior.
-        """
         self._speed = 0
         self._wagons = []
         self._current_route = None

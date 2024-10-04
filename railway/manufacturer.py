@@ -6,9 +6,19 @@ class Manufacturer:
     def __init__(self):
         self.manufacturer_name = None
 
-    def add_manufacturer(self, manufacturer_name):
-        self.manufacturer_name = manufacturer_name
-        return self.manufacturer_name
+    @staticmethod
+    def is_valid(manufacturer_name):
+        if isinstance(manufacturer_name, str) and len(manufacturer_name) > 0:
+            return manufacturer_name
+        else:
+            return None
+
+    def add_manufacturer(self, manufacturer_name: str):
+        if self.is_valid(manufacturer_name):
+            self.manufacturer_name = manufacturer_name
+            return self.manufacturer_name
+        else:
+            raise ValueError("Manufacturer's name must be a string.")
 
     def get_manufacturer(self):
         if self.manufacturer_name:
