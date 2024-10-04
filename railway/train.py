@@ -1,6 +1,7 @@
 from __future__ import annotations
 from railway.wagon import PassengerWagon, CargoWagon
 from railway.manufacturer import Manufacturer
+from railway.decorators import instance_counter
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .route import Route
@@ -117,6 +118,7 @@ class Train(Manufacturer):
         return f"{class_name}(number={self.number!r})"
 
 
+@instance_counter
 class PassengerTrain(Train):
     """
     Represents a passenger train class.
@@ -129,6 +131,7 @@ class PassengerTrain(Train):
         return f"{class_name}(number={self.number!r})"
 
 
+@instance_counter
 class CargoTrain(Train):
     """
     Represents a cargo train class.

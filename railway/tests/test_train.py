@@ -1,6 +1,6 @@
 import pytest
-
 from railway.tests.test_data import BaseSetUp
+from railway.train import PassengerTrain
 
 
 class TestTrain(BaseSetUp):
@@ -12,10 +12,6 @@ class TestTrain(BaseSetUp):
 
 class TestPassengerTrain(BaseSetUp):
 
-    def test_pass_train_repr(self, passenger_trains):
-        expected_repr = "PassengerTrain(number=200)"
-        assert repr(passenger_trains[0]) == expected_repr
-
     def test_pass_train_get_all_instances(self, passenger_trains, train):
         assert passenger_trains[0].all() == {1: train[0],
                                             200: passenger_trains[0],
@@ -23,6 +19,15 @@ class TestPassengerTrain(BaseSetUp):
                                             400: passenger_trains[2],
                                             500: passenger_trains[3]
                                             }
+
+    def test_pass_train_instances_decorator(self, passenger_trains):
+        assert passenger_trains[0].instances() == 8
+        station = PassengerTrain(555)
+        assert station.instances() == 9
+
+    def test_pass_train_repr(self, passenger_trains):
+        expected_repr = "PassengerTrain(number=200)"
+        assert repr(passenger_trains[0]) == expected_repr
 
     def test_pass_train_find(self, passenger_trains):
         assert passenger_trains[0].find(200) == passenger_trains[0]

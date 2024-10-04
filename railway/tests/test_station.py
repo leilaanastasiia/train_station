@@ -1,10 +1,20 @@
+from railway.station import Station
 from railway.tests.test_data import BaseSetUp
 
 
 class TestStation(BaseSetUp):
 
+    def test_station_get_all_instances(self, stations):
+        assert stations[0].all() == {'Kyiv': stations[0],
+                                    'Lviv': stations[1],
+                                    'Yalta': stations[2],
+                                    'Przemysl': stations[3]
+                                    }
+
     def test_station_instances_decorator(self, stations):
-        assert stations[0].instances == 4
+        assert stations[0].instances() == 8
+        station = Station('Dnipro')
+        assert station.instances() == 9
 
     def test_station_repr(self, stations):
         expected_repr = "Station(name='Kyiv')"
@@ -16,13 +26,6 @@ class TestStation(BaseSetUp):
     def test_station_add_trains(self, stations, passenger_trains, cargo_trains):
         assert stations[0].add_train(passenger_trains[0]) == [passenger_trains[0]]
         assert stations[0].add_train(cargo_trains[0]) == [passenger_trains[0], cargo_trains[0]]
-
-    def test_station_get_all_instances(self, stations):
-        assert stations[0].all() == {'Kyiv': stations[0],
-                                    'Lviv': stations[1],
-                                    'Yalta': stations[2],
-                                    'Przemysl': stations[3]
-                                    }
 
     def test_station_add_train(self, stations, train):
         assert stations[0].add_train(train[0]) == 'Only passenger or cargo trains allowed'
