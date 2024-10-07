@@ -1,3 +1,4 @@
+import pytest
 from railway.station import Station
 from railway.tests.test_data import BaseSetUp
 
@@ -15,6 +16,13 @@ class TestStation(BaseSetUp):
         assert stations[0].instances() == 8
         station = Station('Dnipro')
         assert station.instances() == 9
+
+    def test_station_is_valid(self):
+        assert Station('qwerty').name == 'Qwerty'
+
+    def test_station_is_not_valid(self):
+        with pytest.raises(ValueError, match="Station's name must be a string."):
+            Station(120)
 
     def test_station_repr(self, stations):
         expected_repr = "Station(name='Kyiv')"

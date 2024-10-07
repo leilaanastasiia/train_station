@@ -1,4 +1,5 @@
 from __future__ import annotations
+import re
 from railway.wagon import PassengerWagon, CargoWagon
 from railway.manufacturer import Manufacturer
 from railway.decorators import instance_counter
@@ -15,13 +16,17 @@ class Train(Manufacturer):
 
     def __init__(self, number, manufacturer_name=None):
         super().__init__()
-        self.number = number
         self.manufacturer_name = manufacturer_name
-        Train.instances[self.number] = self
-        self._speed = 0
-        self._wagons = []
-        self._current_route = None
-        self._current_station_index = None
+        if self._is_valid(number):
+            self.number = number
+            Train.instances[self.number] = self
+            self._speed = 0
+            self._wagons = []
+            self._current_route = None
+            self._current_station_index = None
+        else:
+            raise ValueError("Train's number must be in a valid pattern.")
+
 
     @staticmethod
     def all():
@@ -33,6 +38,14 @@ class Train(Manufacturer):
             train = Train.instances[number]
             return train
         except KeyError:
+            return None
+
+    @staticmethod
+    def _is_valid(number):
+        pattern = r"^[a-zA-Z0-9]{3}(-?[a-zA-Z0-9]{2})$"
+        if re.match(pattern, number):
+            return number
+        else:
             return None
 
     def gain_speed(self, speed):

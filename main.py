@@ -22,21 +22,25 @@ def created_trains():
         return None
 
 def create_station():
-    user_input = input('Enter name of the Station: ')
-    station = Station(user_input)
-    return f'Station {station.name} was created.'
+    try:
+        user_input = input('Enter name of the Station: ').strip()
+        station = Station(user_input)
+        return f'Station {station.name} was created.'
+    except ValueError as ve:
+        return f'Try again. Wrong input: {ve}'
 
 def create_train():
-    train_type, number = input('Enter type of the train and its number '
-                            '(passenger_55 / cargo_20: ').strip().split(sep='_')
-    if train_type == 'passenger':
-        train = PassengerTrain(number)
-        return f'Passenger train with a number {train.number} was created.'
-    elif train_type == 'cargo':
-        train = PassengerTrain(number)
-        return f'Cargo train with a number {train.number} was created.'
-    else:
-        return 'Enter valid parameters'
+    try:
+        train_type, number = input('Enter type of the train and its number '
+                                '(ex. passenger_500-AX / cargo_200UA: ').strip().split(sep='_')
+        if train_type == 'passenger':
+            train = PassengerTrain(number)
+            return f'Passenger train with a number {train.number} was created.'
+        elif train_type == 'cargo':
+            train = CargoTrain(number)
+            return f'Cargo train with a number {train.number} was created.'
+    except ValueError as ve:
+        return f'Try again. Wrong input: {ve}'
 
 def add_wagon_to_train():
     train = created_trains()
@@ -90,7 +94,7 @@ def main():
         output = options_dict[user_input]()
         print(output, '\n')
     else:
-        print("Wrong input")
+        print("Wrong input, try again.")
 
 
 if __name__ == '__main__':

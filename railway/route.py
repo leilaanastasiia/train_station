@@ -1,4 +1,5 @@
 from __future__ import annotations
+from railway.station import Station
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .station import Station
@@ -9,9 +10,19 @@ class Route:
     """
 
     def __init__(self, start: Station, end: Station):
-        self.start = start
-        self.end = end
-        self._way = []
+        if self._is_valid(start, end):
+            self.start = start
+            self.end = end
+            self._way = []
+        else:
+            raise ValueError("Route's start or end must be an object of Station class.")
+
+    @staticmethod
+    def _is_valid(start, end):
+        if isinstance(start, Station) and isinstance(end, Station):
+            return start, end
+        else:
+            return None
 
     def get_way(self):
         if len(self._way) != 0:

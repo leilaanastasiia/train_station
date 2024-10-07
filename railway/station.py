@@ -14,13 +14,23 @@ class Station:
     instances_dict = {}
 
     def __init__(self, name):
-        self.name = name
-        self._trains = []
-        Station.instances_dict[self.name] = self
+        if self._is_valid(name):
+            self.name = name.capitalize()
+            self._trains = []
+            Station.instances_dict[self.name] = self
+        else:
+            raise ValueError("Station's name must be a string.")
 
     @staticmethod
     def all():
         return Station.instances_dict
+
+    @staticmethod
+    def _is_valid(name):
+        if isinstance(name, str) and len(name) > 0:
+            return name
+        else:
+            return None
 
     def get_trains(self, train_filter=None):
         if not train_filter:

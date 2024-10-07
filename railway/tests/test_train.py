@@ -12,25 +12,36 @@ class TestTrain(BaseSetUp):
 
 class TestPassengerTrain(BaseSetUp):
 
-    def test_pass_train_get_all_instances(self, passenger_trains, train):
-        assert passenger_trains[0].all() == {1: train[0],
-                                            200: passenger_trains[0],
-                                            300: passenger_trains[1],
-                                            400: passenger_trains[2],
-                                            500: passenger_trains[3]
+    def test_pass_train_get_all_instances(self, passenger_trains, cargo_trains, train):
+        assert passenger_trains[0].all() == {'111-11': train[0],
+                                            '200-AC': passenger_trains[0],
+                                            '200AS': cargo_trains[0],
+                                            '300-CC': passenger_trains[1],
+                                            '300-MM': cargo_trains[1],
+                                            '400-20': cargo_trains[2],
+                                            '400-aa': passenger_trains[2],
+                                            '500-10': passenger_trains[3],
+                                            '500NO': cargo_trains[3],
                                             }
 
     def test_pass_train_instances_decorator(self, passenger_trains):
         assert passenger_trains[0].instances() == 8
-        station = PassengerTrain(555)
-        assert station.instances() == 9
+        pass_train = PassengerTrain('555-55')
+        assert pass_train.instances() == 9
+
+    def test_pass_train_is_valid(self):
+        assert PassengerTrain('60000').number == '60000'
+
+    def test_station_is_not_valid(self):
+        with pytest.raises(ValueError, match="Train's number must be in a valid pattern."):
+            PassengerTrain('700')
 
     def test_pass_train_repr(self, passenger_trains):
-        expected_repr = "PassengerTrain(number=200)"
+        expected_repr = "PassengerTrain(number='200-AC')"
         assert repr(passenger_trains[0]) == expected_repr
 
     def test_pass_train_find(self, passenger_trains):
-        assert passenger_trains[0].find(200) == passenger_trains[0]
+        assert passenger_trains[0].find('200-AC') == passenger_trains[0]
         assert passenger_trains[0].find(900) is None
 
     def test_pass_train_manufacturers(self, passenger_trains):
@@ -106,7 +117,7 @@ class TestCargoTrain(BaseSetUp):
     """Without repeated tests from the passenger train"""
 
     def test_cargo_train_repr(self, cargo_trains):
-        expected_repr = "CargoTrain(number=200)"
+        expected_repr = "CargoTrain(number='200AS')"
         assert repr(cargo_trains[0]) == expected_repr
 
     def test_cargo_train_add_pass_wagon(self, cargo_trains, passenger_wagons):
