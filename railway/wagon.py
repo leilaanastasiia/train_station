@@ -21,6 +21,10 @@ class Wagon(Manufacturer):
         else:
             return None
 
+    def __repr__(self):
+        class_name = type(self).__name__
+        return f"{class_name}(number={self.number!r})"
+
 class PassengerWagon(Wagon):
     """
     Represents a passenger wagon class.
@@ -31,6 +35,7 @@ class PassengerWagon(Wagon):
         self.manufacturer_name = manufacturer_name
         if self._is_valid(capacity):
             self.capacity = capacity
+            self.total_capacity = self.capacity
         else:
             raise ValueError("Wagon's capacity must be an integer.")
 
@@ -40,6 +45,24 @@ class PassengerWagon(Wagon):
             return capacity
         else:
             return None
+
+    def take_seat(self):
+        if self.capacity > 0:
+            self.capacity -= 1
+            return self.capacity
+        else:
+            raise ValueError('All seats are taken.')
+
+    def taken_seats(self):
+        return self.total_capacity - self.capacity
+
+    def free_seats(self):
+        return self.capacity
+
+    def __repr__(self):
+        class_name = type(self).__name__
+        return f"{class_name}(number={self.number!r}, capacity={self.capacity!r})"
+
 
 class CargoWagon(Wagon):
     """
@@ -51,6 +74,7 @@ class CargoWagon(Wagon):
         self.manufacturer_name = manufacturer_name
         if self._is_valid(max_weight):
             self.max_weight = max_weight
+            self.weight_left = max_weight
         else:
             raise ValueError("Wagon's max weight must be an integer.")
 
@@ -60,3 +84,20 @@ class CargoWagon(Wagon):
             return max_weight
         else:
             return None
+
+    def load_weight(self, kg):
+        if self.weight_left - kg >= 0:
+            self.weight_left -= kg
+            return self.weight_left
+        else:
+            raise ValueError("Wagon's max weight is exceeded.")
+
+    def taken_weight(self):
+        return self.max_weight - self.weight_left
+
+    def free_weight(self):
+        return self.weight_left
+
+    def __repr__(self):
+        class_name = type(self).__name__
+        return f"{class_name}(number={self.number!r}, max_weight={self.max_weight!r})"

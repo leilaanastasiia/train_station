@@ -65,6 +65,13 @@ class Train(Manufacturer):
     def get_wagons(self):
         return self._wagons
 
+    def call_wagons(self, func):
+        if not callable(func):
+            raise TypeError('The function must be callable.')
+        else:
+            for wagon in self._wagons:
+                return func(wagon)
+
     def _validate_wagon_type(self, wagon: PassengerWagon|CargoWagon):
         """
         Must be implemented in subclasses. Direct access is highly undesired :)

@@ -44,7 +44,7 @@ class BaseSetUp:
     @pytest.fixture(scope='session')
     def passenger_wagons(self):
         return [
-            PassengerWagon(1, 15),
+            PassengerWagon(1, 4),
             PassengerWagon(2, 50),
             PassengerWagon(3, 100),
             PassengerWagon(4, 200),

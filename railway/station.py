@@ -42,6 +42,13 @@ class Station:
         else:
             return 'Wrong filter'
 
+    def call_trains(self, func):
+        if not callable(func):
+            raise TypeError('The function must be callable.')
+        else:
+            for train in self._trains:
+                return func(train)
+
     def add_train(self, train: PassengerTrain|CargoTrain) -> list|str:
         if not issubclass(Train, type(train)):
             self._trains.append(train)

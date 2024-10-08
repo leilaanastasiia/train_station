@@ -63,6 +63,7 @@ class TestPassengerTrain(BaseSetUp):
     def test_pass_train_add_wagon(self, passenger_trains, passenger_wagons):
         passenger_trains[0].add_wagon(passenger_wagons[0])
         assert passenger_trains[0].get_wagons_amount() == 1
+        assert passenger_trains[0].get_wagons() == [passenger_wagons[0]]
 
     def test_pass_train_add_cargo_wagon(self, passenger_trains, cargo_wagons):
         assert "Invalid wagon type for this train." in passenger_trains[0].add_wagon(cargo_wagons[0])
@@ -70,6 +71,7 @@ class TestPassengerTrain(BaseSetUp):
     def test_pass_train_remove_wagon(self, passenger_trains, passenger_wagons):
         passenger_trains[0].remove_wagon(passenger_wagons[0])
         assert passenger_trains[0].get_wagons_amount() == 0
+        assert passenger_trains[0].get_wagons() == []
 
     def test_pass_train_add_wagon_with_speed(self, passenger_trains, passenger_wagons):
         passenger_trains[0].gain_speed(250)
@@ -83,7 +85,6 @@ class TestPassengerTrain(BaseSetUp):
 
     def test_pass_train_no_route(self, passenger_trains):
         assert passenger_trains[0].get_train_stops() == 'Train has no route'
-
 
     def test_pass_train_add_route(self, passenger_trains, routes):
         assert passenger_trains[0].add_route(routes[0]) == ['Kyiv', 'Lviv']

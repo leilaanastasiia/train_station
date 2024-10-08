@@ -3,7 +3,7 @@ from railway.tests.test_data import BaseSetUp
 from railway.wagon import PassengerWagon, CargoWagon
 
 
-class TestWagons(BaseSetUp):
+class TestPassWagons(BaseSetUp):
 
     def test_pass_wagon_get_manufacturer(self, passenger_wagons):
         assert passenger_wagons[0].get_manufacturer() == 'Product has no manufacturer.'
@@ -31,6 +31,30 @@ class TestWagons(BaseSetUp):
         with pytest.raises(ValueError, match="Wagon's capacity must be an integer."):
             PassengerWagon(44, 'r')
 
+    def test_pass_wagon_seats(self, passenger_wagons):
+        assert passenger_wagons[0].take_seat() == 3
+        assert passenger_wagons[0].take_seat() == 2
+        assert passenger_wagons[0].take_seat() == 1
+        assert passenger_wagons[0].take_seat() == 0
+        assert passenger_wagons[0].taken_seats() == 4
+        assert passenger_wagons[0].free_seats() == 0
+
+    def test_pass_wagon_take_seat_error(self, passenger_wagons):
+        with pytest.raises(ValueError, match='All seats are taken.'):
+            passenger_wagons[0].take_seat()
+
+class TestCargoWagons(BaseSetUp):
+
     def test_cargo_wagon_max_weight_error(self):
         with pytest.raises(ValueError, match="Wagon's max weight must be an integer."):
             CargoWagon(44, 'r')
+
+    def test_cargo_wagon_weight(self, cargo_wagons):
+        assert cargo_wagons[0].load_weight(200) == 300
+        assert cargo_wagons[0].load_weight(100) == 200
+        assert cargo_wagons[0].taken_weight() == 300
+        assert cargo_wagons[0].free_weight() == 200
+
+    def test_cargo_wagon_take_weight_error(self, cargo_wagons):
+        with pytest.raises(ValueError, match="Wagon's max weight is exceeded."):
+            cargo_wagons[0].load_weight(1000)
