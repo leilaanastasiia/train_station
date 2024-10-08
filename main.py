@@ -5,32 +5,29 @@ from railway.wagon import CargoWagon, PassengerWagon
 
 def created_stations():
     if len(Station.instances_dict) > 0:
-        print(f'Created stations:', *Station.instances_dict.keys(), sep='\n')
+        print('Created stations:', *Station.instances_dict.keys(), sep='\n')
         user_station = input("Choose the station's name: ").strip()
         return Station.instances_dict[user_station]
-    else:
-        return None
+    return None
 
 def created_trains():
     if len(Train.instances) > 0:
-        print(f'Created trains:', *Train.instances.keys(), sep='\n')
+        print('Created trains:', *Train.instances.keys(), sep='\n')
         user_train = input("Choose the train's number: ").strip()
         return Train.instances[user_train]
-    else:
-        return None
+    return None
 
 def created_wagons(train):
     if train:
         wagons = train.get_wagons()
         if wagons:
-            print(f'Created wagons:', *wagons, sep='\n')
+            print('Created wagons:', *wagons, sep='\n')
             user_number = input("Enter only wagon's number: ").strip()
             wagon = [wagon for wagon in wagons if wagon.number == int(user_number)]
             return wagon[0]
-        else:
-            return None
-    else:
         return None
+    return None
+
 
 def create_station():
     try:
@@ -47,7 +44,7 @@ def create_train():
         if train_type == 'passenger':
             train = PassengerTrain(number)
             return f'Passenger train with a number {train.number} was created.'
-        elif train_type == 'cargo':
+        if train_type == 'cargo':
             train = CargoTrain(number)
             return f'Cargo train with a number {train.number} was created.'
     except ValueError as ve:
@@ -57,17 +54,18 @@ def add_wagon_to_train():
     train = created_trains()
     try:
         if train and isinstance(train, PassengerTrain):
-            number, capacity = input('Enter a number of wagon and its capacity (ex. 20 100): ').strip().split()
+            number, capacity = input('Enter a number of wagon and its capacity '
+                                    '(ex. 20 100): ').strip().split()
             wagon = PassengerWagon(int(number), int(capacity))
             train.add_wagon(wagon)
             return f'Wagon {wagon.number} was added to the train {train.number}.'
-        elif train and isinstance(train, CargoTrain):
-            number, weight = input('Enter a number of wagon and its max weight (ex. 20 100): ').strip().split()
+        if train and isinstance(train, CargoTrain):
+            number, weight = input('Enter a number of wagon and its max weight '
+                                    '(ex. 20 100): ').strip().split()
             wagon = CargoWagon(int(number), int(weight))
             train.add_wagon(wagon)
             return f'Wagon {wagon.number} was added to the train {train.number}.'
-        else:
-            return 'No trains were created.'
+        return 'No trains were created.'
     except ValueError as ve:
         return f'Try again. Wrong input: {ve}'
 
@@ -77,8 +75,7 @@ def remove_wagon_from_train():
     if train and wagon:
         train.remove_wagon(wagon)
         return f'Wagon {wagon.number} was removed.'
-    else:
-        return 'No trains or wagons were there.'
+    return 'No trains or wagons were there.'
 
 def take_seat_or_load_weight_wagon():
     train = created_trains()
@@ -87,7 +84,8 @@ def take_seat_or_load_weight_wagon():
         if isinstance(wagon, PassengerWagon):
             try:
                 wagon.take_seat()
-                return f'You took a seat at the wagon {wagon.number}. Sets left: {wagon.free_seats()}.'
+                return (f'You took a seat at the wagon {wagon.number}. '
+                                f'Sets left: {wagon.free_seats()}.')
             except ValueError as ve:
                 return ve
         elif train and isinstance(wagon, CargoWagon):
@@ -105,8 +103,7 @@ def add_train_to_station():
     if train and station:
         station.add_train(train)
         return f'Train {train.number} was added to the Station {station.name}.'
-    else:
-        return 'Create trains or stations first.'
+    return 'Create trains or stations first.'
 
 def list_objects(item):
         print(item)
@@ -130,6 +127,7 @@ def show_all_trains_wagons():
             return te
     else:
         return 'No trains were created.'
+
 
 def main():
     options_dict = {

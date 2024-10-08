@@ -1,4 +1,5 @@
 import pytest
+
 from railway.route import Route
 from railway.station import Station
 from railway.train import Train, PassengerTrain, CargoTrain

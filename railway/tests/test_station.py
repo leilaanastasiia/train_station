@@ -1,4 +1,5 @@
 import pytest
+
 from railway.station import Station
 from railway.tests.test_data import BaseSetUp
 

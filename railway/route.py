@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from railway.station import Station
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -21,15 +22,13 @@ class Route:
     def _is_valid(start, end):
         if isinstance(start, Station) and isinstance(end, Station):
             return start, end
-        else:
-            return None
+        return None
 
     def get_way(self):
         if len(self._way) != 0:
             intermediate_stops = [i.name for i in self._way]
             return [self.start.name, *intermediate_stops, self.end.name]
-        else:
-            return [self.start.name, self.end.name]
+        return [self.start.name, self.end.name]
 
     def add_intermediate_station(self, station):
         return self._way.append(station)

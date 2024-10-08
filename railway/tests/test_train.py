@@ -1,11 +1,12 @@
 import pytest
+
 from railway.tests.test_data import BaseSetUp
 from railway.train import PassengerTrain
 
 
 class TestTrain(BaseSetUp):
 
-    def test_train_NotImplementedError(self, train, passenger_wagons):
+    def test_train_not_implemented_error(self, train, passenger_wagons):
         with pytest.raises(NotImplementedError):
             train[0].add_wagon(passenger_wagons[0])
 
@@ -96,21 +97,21 @@ class TestPassengerTrain(BaseSetUp):
         routes[0].add_intermediate_station(stations[2])
         assert passenger_trains[0].get_train_stops() == 'Current station: Kyiv\nPrevious station: -\nNext station: Yalta'
 
-    def test_pass_train_move_to_the_first(self, passenger_trains, routes):
+    def test_pass_train_move_to_the_first(self, passenger_trains):
         assert passenger_trains[0].move_to_previous_station() == 'Train is already at the first station.'
 
     def test_pass_train_move_to_next_station(self, passenger_trains):
         passenger_trains[0].move_to_next_station()
         assert passenger_trains[0].get_train_stops() == 'Current station: Yalta\nPrevious station: Kyiv\nNext station: Lviv'
 
-    def test_pass_train_move_to_the_end(self, passenger_trains, routes):
+    def test_pass_train_move_to_the_end(self, passenger_trains):
         passenger_trains[0].move_to_next_station()
         assert passenger_trains[0].get_train_stops() == 'Current station: Lviv\nPrevious station: Yalta\nNext station: -'
 
-    def test_pass_train_move_to_the_end_again(self, passenger_trains, routes):
+    def test_pass_train_move_to_the_end_again(self, passenger_trains):
         assert passenger_trains[0].move_to_next_station() == 'Train is already at the last station.'
 
-    def test_pass_train_move_to_the_previous_station(self, passenger_trains, routes):
+    def test_pass_train_move_to_the_previous_station(self, passenger_trains):
         assert passenger_trains[0].move_to_previous_station() == 'Train moved to Yalta'
 
 
@@ -123,4 +124,3 @@ class TestCargoTrain(BaseSetUp):
 
     def test_cargo_train_add_pass_wagon(self, cargo_trains, passenger_wagons):
         assert "Invalid wagon type for this train." in cargo_trains[0].add_wagon(passenger_wagons[0])
-

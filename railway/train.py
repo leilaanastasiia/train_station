@@ -1,5 +1,6 @@
 from __future__ import annotations
 import re
+
 from railway.wagon import PassengerWagon, CargoWagon
 from railway.manufacturer import Manufacturer
 from railway.decorators import instance_counter
@@ -45,8 +46,7 @@ class Train(Manufacturer):
         pattern = r"^[a-zA-Z0-9]{3}(-?[a-zA-Z0-9]{2})$"
         if re.match(pattern, number):
             return number
-        else:
-            return None
+        return None
 
     def gain_speed(self, speed):
         self._speed += speed
@@ -68,9 +68,8 @@ class Train(Manufacturer):
     def call_wagons(self, func):
         if not callable(func):
             raise TypeError('The function must be callable.')
-        else:
-            for wagon in self._wagons:
-                return func(wagon)
+        for wagon in self._wagons:
+            return func(wagon)
 
     def _validate_wagon_type(self, wagon: PassengerWagon|CargoWagon):
         """
@@ -83,10 +82,8 @@ class Train(Manufacturer):
             if self._speed == 0:
                 self._wagons.append(wagon)
                 return self._wagons
-            else:
-                return f'The current speed of the train is {self._speed} km/h. Please, stop first.'
-        else:
-            return "Invalid wagon type for this train."
+            return f'The current speed of the train is {self._speed} km/h. Please, stop first.'
+        return "Invalid wagon type for this train."
 
     def remove_wagon(self, wagon: PassengerWagon|CargoWagon):
         if self._speed == 0:
@@ -112,22 +109,19 @@ class Train(Manufacturer):
             return (f"Current station: {current_station}\n"
                     f"Previous station: {'-' if previous_station is None else previous_station}\n"
                     f"Next station: {'-' if next_station is None else next_station}")
-        else:
-            return 'Train has no route'
+        return 'Train has no route'
 
     def move_to_next_station(self):
         if self._current_route and self._current_station_index < len(self._current_route.get_way()) - 1:
             self._current_station_index += 1
             return f"Train moved to {self._current_route.get_way()[self._current_station_index]}"
-        else:
-            return "Train is already at the last station."
+        return "Train is already at the last station."
 
     def move_to_previous_station(self):
         if self._current_route and self._current_station_index > 0:
             self._current_station_index -= 1
             return f"Train moved to {self._current_route.get_way()[self._current_station_index]}"
-        else:
-            return "Train is already at the first station."
+        return "Train is already at the first station."
 
     def __repr__(self):
         class_name = type(self).__name__

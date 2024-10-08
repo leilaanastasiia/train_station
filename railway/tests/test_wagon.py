@@ -1,4 +1,5 @@
 import pytest
+
 from railway.tests.test_data import BaseSetUp
 from railway.wagon import PassengerWagon, CargoWagon
 
@@ -23,11 +24,11 @@ class TestPassWagons(BaseSetUp):
     def test_pass_wagon_delete_manufacturer(self, passenger_wagons):
         assert passenger_wagons[0].delete_manufacturer() is None
 
-    def test_pass_wagon_number_error(self, passenger_wagons):
+    def test_pass_wagon_number_error(self):
         with pytest.raises(ValueError, match="Wagon's number must be an integer."):
             PassengerWagon('h', 8)
 
-    def test_pass_wagon_capacity_error(self, passenger_wagons):
+    def test_pass_wagon_capacity_error(self):
         with pytest.raises(ValueError, match="Wagon's capacity must be an integer."):
             PassengerWagon(44, 'r')
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 from railway.train import Train, PassengerTrain, CargoTrain
 from railway.decorators import instance_counter
-from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .train import PassengerTrain, CargoTrain
 
@@ -29,40 +29,35 @@ class Station:
     def _is_valid(name):
         if isinstance(name, str) and len(name) > 0:
             return name
-        else:
-            return None
+        return None
 
     def get_trains(self, train_filter=None):
         if not train_filter:
             return self._trains
-        elif train_filter == 'passenger':
+        if train_filter == 'passenger':
             return [train for train in self._trains if isinstance(train, PassengerTrain)]
-        elif train_filter == 'cargo':
+        if train_filter == 'cargo':
             return [train for train in self._trains if isinstance(train, CargoTrain)]
-        else:
-            return 'Wrong filter'
+        return 'Wrong filter'
 
     def call_trains(self, func):
         if not callable(func):
             raise TypeError('The function must be callable.')
-        else:
-            for train in self._trains:
-                return func(train)
+        for train in self._trains:
+            return func(train)
 
     def add_train(self, train: PassengerTrain|CargoTrain) -> list|str:
         if not issubclass(Train, type(train)):
             self._trains.append(train)
             return self._trains
-        else:
-            return 'Only passenger or cargo trains allowed'
+        return 'Only passenger or cargo trains allowed'
 
     def departure_train(self, train: PassengerTrain|CargoTrain):
         try:
             if not issubclass(Train, type(train)):
                 self._trains.remove(train)
                 return self._trains
-            else:
-                return 'Only passenger or cargo trains allowed'
+            return 'Only passenger or cargo trains allowed'
         except ValueError as ve:
             return f'No train at the station were found: {ve}.'
 

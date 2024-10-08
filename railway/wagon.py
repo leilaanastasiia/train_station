@@ -5,7 +5,6 @@ class Wagon(Manufacturer):
     """
     Represents a wagon class.
     """
-    
     def __init__(self, number, manufacturer_name=None):
         super().__init__()
         self.manufacturer_name = manufacturer_name
@@ -18,8 +17,7 @@ class Wagon(Manufacturer):
     def _is_valid(number):
         if isinstance(number, int):
             return number
-        else:
-            return None
+        return None
 
     def __repr__(self):
         class_name = type(self).__name__
@@ -43,15 +41,13 @@ class PassengerWagon(Wagon):
     def _is_valid(capacity):
         if isinstance(capacity, int):
             return capacity
-        else:
-            return None
+        return None
 
     def take_seat(self):
         if self.capacity > 0:
             self.capacity -= 1
             return self.capacity
-        else:
-            raise ValueError('All seats are taken.')
+        raise ValueError('All seats are taken.')
 
     def taken_seats(self):
         return self.total_capacity - self.capacity
@@ -82,15 +78,13 @@ class CargoWagon(Wagon):
     def _is_valid(max_weight):
         if isinstance(max_weight, int):
             return max_weight
-        else:
-            return None
+        return None
 
     def load_weight(self, kg):
         if self.weight_left - kg >= 0:
             self.weight_left -= kg
             return self.weight_left
-        else:
-            raise ValueError("Wagon's max weight is exceeded.")
+        raise ValueError("Wagon's max weight is exceeded.")
 
     def taken_weight(self):
         return self.max_weight - self.weight_left
