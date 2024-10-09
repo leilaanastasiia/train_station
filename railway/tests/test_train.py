@@ -45,10 +45,14 @@ class TestPassengerTrain(BaseSetUp):
         assert passenger_trains[0].find('200-AC') == passenger_trains[0]
         assert passenger_trains[0].find(900) is None
 
-    def test_pass_train_manufacturers(self, passenger_trains):
+    def test_pass_train_manufacturer(self, passenger_trains):
         assert passenger_trains[0].get_manufacturer() == 'Product has no manufacturer.'
         assert passenger_trains[0].add_manufacturer('Python') == 'Python'
         assert passenger_trains[0].delete_manufacturer() is None
+
+    def test_pass_train_manufacturer_error(self, passenger_trains):
+        with pytest.raises(ValueError, match="Manufacturer's name must be a string."):
+            assert passenger_trains[0].add_manufacturer(7)
 
     def test_pass_train_gain_speed(self, passenger_trains):
         passenger_trains[0].gain_speed(25)
