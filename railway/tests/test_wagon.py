@@ -1,10 +1,44 @@
 import pytest
 
 from railway.tests.test_data import BaseSetUp
-from railway.wagon import PassengerWagon, CargoWagon
+from railway.wagon import PassengerWagon, CargoWagon, Wagon
+
+
+class TestWagon:
+
+    def test_wagon(self):
+        expected_repr = "Wagon(number=1)"
+        wagon = Wagon(1)
+        assert wagon.number == 1
+        assert repr(wagon) == expected_repr
+        assert Wagon(1, None)
+        assert Wagon(1, '1')
+
+    def test_wagon_err_number(self):
+        with pytest.raises(ValueError, match='Invalid number.'):
+            assert Wagon('1')
+
+    def test_wagon_err_manufacturer(self):
+        with pytest.raises(ValueError, match="Manufacturer's name must be a string."):
+            assert Wagon(1, 1)
 
 
 class TestPassWagons(BaseSetUp):
+
+    def test_pass_wagon_manufacturer(self):
+        assert PassengerWagon(1,1)
+        assert PassengerWagon(1, 1, 'Name')
+    def test_pass_wagon_number_error(self):
+        with pytest.raises(ValueError, match="Invalid number."):
+            PassengerWagon('h', 8)
+
+    def test_pass_wagon_capacity_error(self):
+        with pytest.raises(ValueError, match="Invalid capacity|weight."):
+            PassengerWagon(44, 'r')
+
+    def test_pass_wagon_manufacturer_error(self):
+        with pytest.raises(ValueError, match="Manufacturer's name must be a string."):
+            PassengerWagon(44, 44, 9)
 
     def test_pass_wagon_get_manufacturer(self, passenger_wagons):
         assert passenger_wagons[0].get_manufacturer() == 'Product has no manufacturer.'
@@ -24,14 +58,6 @@ class TestPassWagons(BaseSetUp):
     def test_pass_wagon_delete_manufacturer(self, passenger_wagons):
         assert passenger_wagons[0].delete_manufacturer() is None
 
-    def test_pass_wagon_number_error(self):
-        with pytest.raises(ValueError, match="Wagon's number must be an integer."):
-            PassengerWagon('h', 8)
-
-    def test_pass_wagon_capacity_error(self):
-        with pytest.raises(ValueError, match="Wagon's capacity must be an integer."):
-            PassengerWagon(44, 'r')
-
     def test_pass_wagon_seats(self, passenger_wagons):
         assert passenger_wagons[0].take_seat() == 3
         assert passenger_wagons[0].take_seat() == 2
@@ -46,8 +72,23 @@ class TestPassWagons(BaseSetUp):
 
 class TestCargoWagons(BaseSetUp):
 
+    def test_cargo_wagon_manufacturer(self):
+        assert CargoWagon(1,1)
+        assert CargoWagon(1, 1, 'Name')
+    def test_cargo_wagon_number_error(self):
+        with pytest.raises(ValueError, match="Invalid number."):
+            CargoWagon('h', 8)
+
+    def test_cargo_wagon_capacity_error(self):
+        with pytest.raises(ValueError, match="Invalid capacity|weight."):
+            CargoWagon(44, 'r')
+
+    def test_cargo_wagon_manufacturer_error(self):
+        with pytest.raises(ValueError, match="Manufacturer's name must be a string."):
+            CargoWagon(44, 44, 9)
+
     def test_cargo_wagon_max_weight_error(self):
-        with pytest.raises(ValueError, match="Wagon's max weight must be an integer."):
+        with pytest.raises(ValueError, match="Invalid capacity|weight."):
             CargoWagon(44, 'r')
 
     def test_cargo_wagon_weight(self, cargo_wagons):

@@ -1,22 +1,18 @@
+from railway.decorators import validate_manufacturer
+
+
 class Manufacturer:
     """
     Represents a manufacturer class.
     """
+    @validate_manufacturer
+    def __init__(self, manufacturer_name=None):
+        self.manufacturer_name = manufacturer_name
 
-    def __init__(self):
-        self.manufacturer_name = None
-
-    @staticmethod
-    def is_valid(manufacturer_name):
-        if isinstance(manufacturer_name, str) and len(manufacturer_name) > 0:
-            return manufacturer_name
-        return None
-
+    @validate_manufacturer
     def add_manufacturer(self, manufacturer_name: str):
-        if self.is_valid(manufacturer_name):
-            self.manufacturer_name = manufacturer_name
-            return self.manufacturer_name
-        raise ValueError("Manufacturer's name must be a string.")
+        self.manufacturer_name = manufacturer_name
+        return self.manufacturer_name
 
     def get_manufacturer(self):
         if self.manufacturer_name:

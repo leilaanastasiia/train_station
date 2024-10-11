@@ -32,10 +32,15 @@ class TestPassengerTrain(BaseSetUp):
 
     def test_pass_train_is_valid(self):
         assert PassengerTrain('60000').number == '60000'
+        assert PassengerTrain('900-AN', 'Jerry')
 
-    def test_station_is_not_valid(self):
+    def test_pass_train_is_not_valid(self):
         with pytest.raises(ValueError, match="Train's number must be in a valid pattern."):
             PassengerTrain('700')
+
+    def test_pass_train_is_not_valid_manufacturer(self):
+        with pytest.raises(ValueError, match="Manufacturer's name must be a string."):
+            PassengerTrain('700AA', 7)
 
     def test_pass_train_repr(self, passenger_trains):
         expected_repr = "PassengerTrain(number='200-AC')"

@@ -1,9 +1,8 @@
 from __future__ import annotations
-import re
 
 from railway.wagon import PassengerWagon, CargoWagon
 from railway.manufacturer import Manufacturer
-from railway.decorators import instance_counter
+from railway.decorators import instance_counter, validate_train_number_pattern
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .route import Route
@@ -15,19 +14,15 @@ class Train(Manufacturer):
     """
     instances = {}
 
+    @validate_train_number_pattern
     def __init__(self, number, manufacturer_name=None):
-        super().__init__()
-        self.manufacturer_name = manufacturer_name
-        if self._is_valid(number):
-            self.number = number
-            Train.instances[self.number] = self
-            self._speed = 0
-            self._wagons = []
-            self._current_route = None
-            self._current_station_index = None
-        else:
-            raise ValueError("Train's number must be in a valid pattern.")
-
+        super().__init__(manufacturer_name)
+        self.number = number
+        Train.instances[self.number] = self
+        self._speed = 0
+        self._wagons = []
+        self._current_route = None
+        self._current_station_index = None
 
     @staticmethod
     def all():
@@ -40,13 +35,6 @@ class Train(Manufacturer):
             return train
         except KeyError:
             return None
-
-    @staticmethod
-    def _is_valid(number):
-        pattern = r"^[a-zA-Z0-9]{3}(-?[a-zA-Z0-9]{2})$"
-        if re.match(pattern, number):
-            return number
-        return None
 
     def gain_speed(self, speed):
         self._speed += speed
